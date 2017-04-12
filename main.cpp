@@ -1,47 +1,10 @@
 #include <iostream>
-
+#include <fstream>
+#include <string>
+#include "UserInput.h"
+#include "Exam.h"
+#include "Classroom.h"
 using namespace std;
-
-namespace UserInput{
-  string GetInterval(){
-    bool valid_interval = false;
-    while(!valid_interval){
-      cout << "Please enter time interval (e.g. 7:30-13:30 or 16:30-18:20): ";
-      string interval;
-      cin >> interval;
-      if(TryParseInterval(interval){
-        valid_interval = true;
-      }
-    }
-    return interval;
-  }
-
-  string GetDay(){
-    bool valid_day = false;
-    while(!valid_day){
-      cout << "Please enter day (e.g. Mon or Fri or 1 or 5): ";
-      string day;
-      cin >> day;
-      if(TryParseDay(day){
-        valid_day = true;
-      }
-    }
-    return day;
-  }
-
-  string GetClassName(){
-    bool valid_classroom = false;
-    while(!valid_classroom){
-      cout << "Please enter class name (e.g. D503 or D504): ";
-      string class_name;
-      cin >> class_name;
-      if(Classroom.exists(class_name)){
-        valid_classroom = true;
-      }
-    }
-    return class_name;
-  }
-}
 
 void DisplayMenu(){
   cout << "1. Create Exam" << endl;
@@ -53,7 +16,20 @@ void DisplayMenu(){
 }
 
 void CreateExam(){
-
+  string course_name = UserInput::GetCourseName();
+  string day = UserInput::GetDay();
+  string time = UserInput::GetTime();
+  cout << "Please enter number of students: " << endl;
+  int student_number;
+  cin >> student_number;
+  Exam newExam;
+  //assign classes
+  
+  //write to file
+  string toWrite = "Test string\nThis is a test!";
+  ofstream out("examout.txt");
+  out << toWrite;
+  out.close();
 }
 
 int main(){
@@ -61,38 +37,37 @@ int main(){
   //iniatialize classrooms from file
   while(!exit){
     DisplayMenu();
-    string input;
-    cin >> input;
-    switch(input){
-      case "1":
+    int choice = UserInput::GetInt();
+    switch(choice){
+      case 1:{
         CreateExam();
-        break;
-      case "2":
-        string class_name = UserInput.GetClassroom();
-        if(Classroom.exists(class_name)){
-          Classroom.get(class_name).DisplaySchedule();
+      }break;
+      case 2:{
+        string class_name = UserInput::GetClassName();
+        if(Classroom::Exists(class_name)){
+          Classroom::Get(class_name).DisplaySchedule();
         }else{
           cout << "There is no such class" << endl;
         }
-        break;
-      case "3":
-        string interval = UserInput.GetInterval();
-        string day = UserInput.GetDay();
-        Classroom.GetFreeClassesForIntervalAndDate(interval, day);
-        break;
-      case "4":
-        string class_name = UserInput.GetClassroom();
-        string day = UserInput.GetDay();
-        Classroom.GetFreeHoursForClassAndDay(class_name, day);
-        break;
-      case "5":
-        string class_name = UserInput.GetClassroom();
-        string interval = UserInput.GetInterval();
-        Classroom.GetFreeDaysForClassAndInterval(class_name, interval);
-        break;
-      case "0":
+      }break;
+      case 3:{
+        string interval = UserInput::GetInterval();
+        string day = UserInput::GetDay();
+        Classroom::GetFreeClassesForIntervalAndDay(interval, day);
+      }break;
+      case 4:{
+        string class_name = UserInput::GetClassName();
+        string day = UserInput::GetDay();
+        Classroom::GetFreeTimesForClassAndDay(class_name, day);
+      }break;
+      case 5:{
+        string class_name = UserInput::GetClassName();
+        string interval = UserInput::GetInterval();
+        Classroom::GetFreeDaysForClassAndInterval(class_name, interval);
+      }break;
+      case 0:{
         exit = true;
-        break;
+      }break;
       default: 
         cout << "Your input does not match any of the options." << endl;
     }
