@@ -1,5 +1,5 @@
 out.o: main.o Classroom.o Exam.o UserInput.o
-	g++ -Wall -o output.o main.o Classroom.o Exam.o UserInput.o
+	g++ -Wall -o output.o main.o Classroom.o Exam.o UserInput.o -lboost_system -lboost_filesystem
 
 main.o: main.cpp Classroom.h Exam.h UserInput.h
 	g++ -Wall -o main.o main.cpp -c

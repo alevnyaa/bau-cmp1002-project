@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-//#include <boost/filesystem.hpp>
+#include <boost/filesystem.hpp>
 #include "UserInput.h"
 #include "Exam.h"
 #include "Classroom.h"
@@ -16,26 +16,26 @@ void DisplayMenu(){
   cout << "0. Exit" << endl;
 }
 
-//using boost::filesystem::directory_entry;
-//using boost::filesystem::directory_iterator;
-//using boost::filesystem::path;
+using boost::filesystem::directory_entry;
+using boost::filesystem::directory_iterator;
+using boost::filesystem::path;
 
 int InitializeClasses(){
-//  path p = "src/";
+  path p = "src/";
   vector<string> class_files;
-//  if(exists(p)){
-//    for (directory_entry& x : directory_iterator(p)){
-//      string cur_file;
-//      ifstream file(x.path().filename().string());
-//      while(getline(file, cur_file));
-//      class_files.push_back(cur_file); 
-//    }
-//  }else{
-//    return 1;
-//  }
-  return 0;
-  //work with class_files here
-  //to actually initialize the classrooms
+  if(exists(p)){
+    for (directory_entry& x : directory_iterator(p)){
+      string cur_file;
+      ifstream file(x.path().filename().string());
+      while(getline(file, cur_file));
+      class_files.push_back(cur_file); 
+    }
+  }else{
+    return 1;
+  }
+return 0;
+//work with class_files here
+//to actually initialize the classrooms
 }
 
 void CreateExam(){
