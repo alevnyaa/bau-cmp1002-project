@@ -12,3 +12,6 @@ Exam.o: Exam.cpp Exam.h
 
 UserInput.o: UserInput.cpp UserInput.h Classroom.h
 	g++ -Wall -o UserInput.o UserInput.cpp -c
+
+clean: 
+	rm output.o main.o Classroom.o Exam.o UserInput.o
