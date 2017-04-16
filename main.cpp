@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+//#include <boost/filesystem.hpp>
 #include "UserInput.h"
 #include "Exam.h"
 #include "Classroom.h"
@@ -15,6 +16,28 @@ void DisplayMenu(){
   cout << "0. Exit" << endl;
 }
 
+//using boost::filesystem::directory_entry;
+//using boost::filesystem::directory_iterator;
+//using boost::filesystem::path;
+
+int InitializeClasses(){
+//  path p = "src/";
+  vector<string> class_files;
+//  if(exists(p)){
+//    for (directory_entry& x : directory_iterator(p)){
+//      string cur_file;
+//      ifstream file(x.path().filename().string());
+//      while(getline(file, cur_file));
+//      class_files.push_back(cur_file); 
+//    }
+//  }else{
+//    return 1;
+//  }
+  return 0;
+  //work with class_files here
+  //to actually initialize the classrooms
+}
+
 void CreateExam(){
   string course_name = UserInput::GetCourseName();
   string day = UserInput::GetDay();
@@ -24,17 +47,26 @@ void CreateExam(){
   cin >> student_number;
   Exam newExam;
   //assign classes
-  
+  //in order to assign classes you have to decide what kind of
+  //array you want to keep the classroom schedule in
+  //perhaps a 2d bool array will do
+  //but actually setting up interface ClassEvent
+  //and adding Exams and Classes to it to fill it
+  //and having nulls might work, not sure how well C++ handles nulls
   //write to file
-  string toWrite = "Test string\nThis is a test!";
+  string exam_out = "Test string\nThis is a test!";
   ofstream out("examout.txt");
-  out << toWrite;
+  out << exam_out;
   out.close();
 }
 
 int main(){
+  if(InitializeClasses()==1){
+    cout << "src/ directory and thus the classroom files are missing" << endl;
+    cout << "Terminating..." << endl;
+    return 1; 
+  };
   bool exit = false;
-  //iniatialize classrooms from file
   while(!exit){
     DisplayMenu();
     int choice = UserInput::GetInt();
