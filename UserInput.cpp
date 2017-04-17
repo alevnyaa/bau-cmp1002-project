@@ -24,6 +24,8 @@ string UserInput::GetClassName(){
     cin >> class_name;
     if(Classroom::Exists(class_name)){
       valid_classroom = true;
+    }else{
+      cout << "No such class exists" << endl;
     }
   }
   return class_name;
@@ -75,6 +77,7 @@ int UserInput::GetInt(){
 }
 
 bool UserInput::TryParseInterval(string interval){
+  // 7:30-13:30 or 16:30-18:20
   return true;
 }
 

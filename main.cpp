@@ -33,9 +33,9 @@ int InitializeClasses(){
   }else{
     return 1;
   }
-return 0;
-//work with class_files here
-//to actually initialize the classrooms
+  return 0;
+  //work with class_files here
+  //to actually initialize the classrooms
 }
 
 void CreateExam(){
