@@ -16,7 +16,7 @@ bool Classroom::exists(string class_name){
       /* std::cout << *it; ... */
   //  if
   //}else
-  for(auto const& classroom: Classroom::Classrooms) {
+  for(auto const& classroom: Classroom::classrooms) {
     if(classroom.class_name_ == class_name){
       return true;
     }

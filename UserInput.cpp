@@ -22,7 +22,7 @@ string UserInput::GetClassName(){
   while(!valid_classroom){
     cout << "Please enter class name (e.g. D503 or D504): ";
     cin >> class_name;
-    if(Classroom::Exists(class_name)){
+    if(Classroom::exists(class_name)){
       valid_classroom = true;
     }else{
       cout << "No such class exists" << endl;

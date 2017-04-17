@@ -76,8 +76,8 @@ int main(){
       }break;
       case 2:{
         string class_name = UserInput::GetClassName();
-        if(Classroom::Exists(class_name)){
-          Classroom::Get(class_name).DisplaySchedule();
+        if(Classroom::exists(class_name)){
+          Classroom::get(class_name).display_schedule();
         }else{
           cout << "There is no such class" << endl;
         }
@@ -85,17 +85,17 @@ int main(){
       case 3:{
         string interval = UserInput::GetInterval();
         string day = UserInput::GetDay();
-        Classroom::GetFreeClassesForIntervalAndDay(interval, day);
+        Classroom::get_free_classes_for_interval_and_day(interval, day);
       }break;
       case 4:{
         string class_name = UserInput::GetClassName();
         string day = UserInput::GetDay();
-        Classroom::GetFreeTimesForClassAndDay(class_name, day);
+        Classroom::get_free_times_for_class_and_day(class_name, day);
       }break;
       case 5:{
         string class_name = UserInput::GetClassName();
         string interval = UserInput::GetInterval();
-        Classroom::GetFreeDaysForClassAndInterval(class_name, interval);
+        Classroom::get_free_days_for_class_and_interval(class_name, interval);
       }break;
       case 0:{
         exit = true;
