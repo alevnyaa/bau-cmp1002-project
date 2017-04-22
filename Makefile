@@ -1,17 +1,20 @@
-out.o: main.o Classroom.o Exam.o UserInput.o
-	g++ -Wall -o output.o main.o Classroom.o Exam.o UserInput.o -lboost_system -lboost_filesystem
+editor.o: main.o libexameditor.a
+	g++ -Wall -o editor.o main.o libexameditor.a -lboost_system -lboost_filesystem
 
-main.o: main.cpp Classroom.h Exam.h UserInput.h
+libexameditor.a: classroom.o exam.o userinput.o
+	ar rvs libexameditor.a classroom.o exam.o userinput.o
+
+main.o: main.cpp classroom.h exam.h userinput.h
 	g++ -Wall -o main.o main.cpp -c
 
-Classroom.o: Classroom.cpp Classroom.h
-	g++ -Wall -o Classroom.o Classroom.cpp -c
+classroom.o: classroom.cpp classroom.h
+	g++ -Wall -o classroom.o classroom.cpp -c
 
-Exam.o: Exam.cpp Exam.h
-	g++ -Wall -o Exam.o Exam.cpp -c
+exam.o: exam.cpp exam.h
+	g++ -Wall -o exam.o exam.cpp -c
 
-UserInput.o: UserInput.cpp UserInput.h Classroom.h
-	g++ -Wall -o UserInput.o UserInput.cpp -c
+userinput.o: userinput.cpp userinput.h classroom.h
+	g++ -Wall -o userinput.o userinput.cpp -c
 
 clean: 
-	rm output.o main.o Classroom.o Exam.o UserInput.o
+	rm editor.o main.o libexameditor.a classroom.o exam.o userinput.o
