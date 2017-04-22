@@ -2,12 +2,12 @@
 #include <fstream>
 #include <string>
 #include <boost/filesystem.hpp>
-#include "UserInput.h"
-#include "Exam.h"
-#include "Classroom.h"
+#include "userinput.h"
+#include "exam.h"
+#include "classroom.h"
 using namespace std;
 
-void DisplayMenu(){
+void display_menu(){
   cout << "1. Create Exam" << endl;
   cout << "2. Show schedule for class" << endl;
   cout << "3. List available classes for time and day" << endl;
@@ -20,7 +20,7 @@ using boost::filesystem::directory_entry;
 using boost::filesystem::directory_iterator;
 using boost::filesystem::path;
 
-int InitializeClasses(){
+int initialize_classes(){
   path p = "src/";
   vector<string> class_files;
   if(exists(p)){
@@ -38,14 +38,14 @@ int InitializeClasses(){
   //to actually initialize the classrooms
 }
 
-void CreateExam(){
-  string course_name = UserInput::GetCourseName();
-  string day = UserInput::GetDay();
-  string time = UserInput::GetTime();
+void create_exam(){
+  string course_name = userinput::get_course_name();
+  string day = userinput::get_day();
+  string time = userinput::get_time();
   cout << "Please enter number of students: " << endl;
   int student_number;
   cin >> student_number;
-  Exam newExam;
+  exam new_exam;
   //assign classes
   //in order to assign classes you have to decide what kind of
   //array you want to keep the classroom schedule in
@@ -61,41 +61,41 @@ void CreateExam(){
 }
 
 int main(){
-  if(InitializeClasses()==1){
+  if(initialize_classes()==1){
     cout << "src/ directory and thus the classroom files are missing" << endl;
     cout << "Terminating..." << endl;
     return 1; 
   };
   bool exit = false;
   while(!exit){
-    DisplayMenu();
-    int choice = UserInput::GetInt();
+    display_menu();
+    int choice = userinput::get_int();
     switch(choice){
       case 1:{
-        CreateExam();
+        create_exam();
       }break;
       case 2:{
-        string class_name = UserInput::GetClassName();
-        if(Classroom::exists(class_name)){
-          Classroom::get(class_name).display_schedule();
+        string class_name = userinput::get_class_name();
+        if(classroom::exists(class_name)){
+          classroom::get(class_name).print_schedule();
         }else{
           cout << "There is no such class" << endl;
         }
       }break;
       case 3:{
-        string interval = UserInput::GetInterval();
-        string day = UserInput::GetDay();
-        Classroom::get_free_classes_for_interval_and_day(interval, day);
+        string interval = userinput::get_interval();
+        string day = userinput::get_day();
+        classroom::get_free_classes_for_interval_and_day(interval, day);
       }break;
       case 4:{
-        string class_name = UserInput::GetClassName();
-        string day = UserInput::GetDay();
-        Classroom::get_free_times_for_class_and_day(class_name, day);
+        string class_name = userinput::get_class_name();
+        string day = userinput::get_day();
+        classroom::get_free_times_for_class_and_day(class_name, day);
       }break;
       case 5:{
-        string class_name = UserInput::GetClassName();
-        string interval = UserInput::GetInterval();
-        Classroom::get_free_days_for_class_and_interval(class_name, interval);
+        string class_name = userinput::get_class_name();
+        string interval = userinput::get_interval();
+        classroom::get_free_days_for_class_and_interval(class_name, interval);
       }break;
       case 0:{
         exit = true;

@@ -2,10 +2,10 @@
 #define EXAM_H
 #include <string>
 
-class Exam{
+class exam{
   public:
-    Exam();
-    Exam(std::string name, std::string code, std::string classroom, int date, int time);
+    exam();
+    exam(std::string name, std::string code, std::string classroom, int date, int time);
     operator std::string() const;
   private:
     std::string course_name_;

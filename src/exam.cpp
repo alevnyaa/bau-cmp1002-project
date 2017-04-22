@@ -1,11 +1,11 @@
-#include "Exam.h"
+#include "exam.h"
 using namespace std;
 
-Exam::Exam(){
+exam::exam(){
   return;
 }
 
-Exam::Exam(string name, string code, string classroom, int date, int time){
+exam::exam(string name, string code, string classroom, int date, int time){
   course_name_ = name;
   course_code_ = code;
   classroom_ = classroom;
@@ -14,6 +14,6 @@ Exam::Exam(string name, string code, string classroom, int date, int time){
   return;
 }
 
-Exam::operator std::string() const{
+exam::operator std::string() const{
   return "";
 }
