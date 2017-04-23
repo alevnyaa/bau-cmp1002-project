@@ -21,7 +21,7 @@ using boost::filesystem::directory_iterator;
 using boost::filesystem::path;
 
 int initialize_classes(){
-  path p = "src/";
+  path p = "files/classrooms/";
   vector<string> class_files;
   if(exists(p)){
     for (directory_entry& x : directory_iterator(p)){
@@ -32,6 +32,9 @@ int initialize_classes(){
     }
   }else{
     return 1;
+  }
+  for(auto cf : class_files){
+    classroom::add_from_file(cf);
   }
   return 0;
   //work with class_files here
@@ -62,7 +65,7 @@ void create_exam(){
 
 int main(){
   if(initialize_classes()==1){
-    cout << "src/ directory and thus the classroom files are missing" << endl;
+    cout << "Can't find classroom setup texts in \"files/\" directory to initialize classrooms" << endl;
     cout << "Terminating..." << endl;
     return 1; 
   };
@@ -101,7 +104,7 @@ int main(){
         exit = true;
       }break;
       default: 
-        cout << "Your input does not match any of the options." << endl;
+        cout << "Your input does not match any operation" << endl;
     }
   }
 }
