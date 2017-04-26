@@ -1,4 +1,4 @@
-CC := g++ -Wall
+CC := g++ -Wall -std=c++11
 TARGET := bin/exameditor
 LIB := -lboost_system -lboost_filesystem
 
