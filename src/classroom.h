@@ -16,7 +16,7 @@ class classroom{
     static bool exists(std::string class_name);
     static classroom get(std::string class_name);
 
-    static void add_from_file(std::string class_file);
+    static void add_from_file(std::vector<char> class_file);
 
     std::string print_schedule();
 

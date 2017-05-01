@@ -22,7 +22,7 @@ classroom classroom::get(string class_name){
   return classroom();
 }
 
-void classroom::add_from_file(std::string class_file){
+void classroom::add_from_file(vector<char> class_file){
 //  shared_ptr<classroom> ptr(new classroom(class_file));
 //  classrooms_.push_back(ptr);
   return;

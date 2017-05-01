@@ -22,12 +22,15 @@ using boost::filesystem::path;
 
 int initialize_classes(){
   path p = "files/classrooms/";
-  vector<string> class_files;
+  vector<vector<char> > class_files;
   if(exists(p)){
     for (directory_entry& x : directory_iterator(p)){
-      string cur_file;
+      vector<char> cur_file;
       ifstream file(x.path().filename().string());
-      while(getline(file, cur_file));
+      char ch;
+      while (file >> skipws >> ch) {
+        cur_file.push_back(ch);
+      }
       class_files.push_back(cur_file); 
     }
   }else{
