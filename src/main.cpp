@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <queue>
 #include <boost/filesystem.hpp>
 #include "userinput.h"
 #include "exam.h"
@@ -22,16 +24,28 @@ using boost::filesystem::path;
 
 int initialize_classes(){
   path p = "files/classrooms/";
-  vector<vector<char> > class_files;
+  //files of lines of queues of chars
+  //vector of vector of queue of char
+  vector<vector<queue<char> > > class_files;
   if(exists(p)){
     for (directory_entry& x : directory_iterator(p)){
-      vector<char> cur_file;
+      vector<queue<char> > cur_file;
+
       ifstream file(x.path().filename().string());
+      
+      queue<char> cur_line;
       char ch;
-      while (file >> skipws >> ch) {
-        cur_file.push_back(ch);
+      while (file >> noskipws >> ch) {
+        if(!isspace(ch)){
+          cur_line.push(ch);
+        }else if(ch == '\n'){
+          cur_file.push_back(cur_line);
+          cur_line = queue<char>();
+        }
       }
       class_files.push_back(cur_file); 
+      cur_file = vector<queue<char> >();
+      file.close();
     }
   }else{
     cout << "Classroom files are missing!" << endl;
@@ -41,26 +55,17 @@ int initialize_classes(){
     new classroom(cf);
   }
   return 0;
-  //work with class_files here
-  //to actually initialize the classrooms
 }
 
 void create_exam(){
   string course_name = userinput::course_name::get();
+  string classroom_name = userinput::classroom_name::get();
   string day = userinput::day::get();
   string time = userinput::starting_time::get();
-  cout << "Please enter number of students: " << endl;
+  cout << "Please enter number of student: ";
   int student_number;
   cin >> student_number;
-  exam new_exam;
-  //assign classes
-  //in order to assign classes you have to decide what kind of
-  //array you want to keep the classroom schedule in
-  //perhaps a 2d bool array will do
-  //but actually setting up interface ClassEvent
-  //and adding Exams and Classes to it to fill it
-  //and having nulls might work, not sure how well C++ handles nulls
-  //write to file
+  exam new_exam(course_name, classroom_name, day, time, student_number);
   string exam_out = "Test string\nThis is a test!";
   ofstream out("examout.txt");
   out << exam_out;

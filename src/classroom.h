@@ -4,13 +4,14 @@
 #include <array>
 #include <vector>
 #include <memory>
+#include <queue>
 #include "exam.h"
 const int DAY_NUM = 7;
 const int LESSON_NUM = 7;
 
 class classroom{
   public:
-    classroom(std::vector<char> class_file);
+    classroom(std::vector<std::queue<char> > class_file);
 
     static bool exists(std::string class_name);
     static classroom get(std::string class_name);

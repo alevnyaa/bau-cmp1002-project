@@ -1,7 +1,7 @@
 #include "classroom.h"
 using namespace std;
 
-classroom::classroom(vector<char> class_file){
+classroom::classroom(vector<queue<char> > class_file){
   return;
 }
 
@@ -11,7 +11,7 @@ bool classroom::exists(string class_name){
 //      return true;
 //    }
 //  }
-  return false;
+  return true;
 }
 
 //classroom classroom::get(string class_name){
