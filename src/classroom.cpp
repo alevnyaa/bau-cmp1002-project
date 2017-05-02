@@ -1,11 +1,7 @@
 #include "classroom.h"
 using namespace std;
 
-classroom::classroom(){
-  return;
-}
-
-classroom::classroom(string class_file){
+classroom::classroom(vector<char> class_file){
   return;
 }
 
@@ -18,15 +14,9 @@ bool classroom::exists(string class_name){
   return false;
 }
 
-classroom classroom::get(string class_name){
-  return classroom();
-}
-
-void classroom::add_from_file(vector<char> class_file){
-//  shared_ptr<classroom> ptr(new classroom(class_file));
-//  classrooms_.push_back(ptr);
-  return;
-}
+//classroom classroom::get(string class_name){
+//  return classroom();
+//}
 
 string classroom::get_free_classes_for_interval_and_day(string interval, string day){
   return "";

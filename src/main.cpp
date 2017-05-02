@@ -34,10 +34,11 @@ int initialize_classes(){
       class_files.push_back(cur_file); 
     }
   }else{
+    cout << "Classroom files are missing!" << endl;
     return 1;
   }
   for(auto cf : class_files){
-    classroom::add_from_file(cf);
+    new classroom(cf);
   }
   return 0;
   //work with class_files here
@@ -83,7 +84,7 @@ int main(){
       case 2:{
         string class_name = userinput::get_class_name();
         if(classroom::exists(class_name)){
-          classroom::get(class_name).print_schedule();
+          //classroom::get(class_name).print_schedule();
         }else{
           cout << "There is no such class" << endl;
         }

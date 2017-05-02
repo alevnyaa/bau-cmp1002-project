@@ -10,13 +10,10 @@ const int LESSON_NUM = 7;
 
 class classroom{
   public:
-    classroom();
-    classroom(std::string class_file);
+    classroom(std::vector<char> class_file);
 
     static bool exists(std::string class_name);
     static classroom get(std::string class_name);
-
-    static void add_from_file(std::vector<char> class_file);
 
     std::string print_schedule();
 
@@ -24,9 +21,10 @@ class classroom{
     static std::string get_free_times_for_class_and_day(std::string class_name, std::string day);
     static std::string get_free_days_for_class_and_interval(std::string class_name, std::string interval);
   private:
+    static std::vector<std::shared_ptr<classroom>> classrooms_;
+
     std::string class_name_;
     std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedules_;
     std::vector<exam> exams_;
-    static std::vector<std::shared_ptr<classroom>> classrooms_;
 };
 #endif
