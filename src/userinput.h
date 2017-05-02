@@ -5,26 +5,22 @@
 namespace userinput{
   namespace starting_time{
     std::string get();
-    bool parse();
-    bool try_parse();
+    bool try_parse(std::string starting_time);
   };
 
   namespace classroom_name{
     std::string get();
-    bool parse();
-    bool try_parse();
+    bool try_parse(std::string classroom_name);
   };
 
   namespace day{
     std::string get();
-    bool parse();
-    bool try_parse();
+    bool try_parse(std::string day);
   };
 
   namespace course_name{
     std::string get();
-    bool parse();
-    bool try_parse();
+    bool try_parse(std::string course_name);
   };
 
   int get_int();

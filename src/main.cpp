@@ -46,9 +46,9 @@ int initialize_classes(){
 }
 
 void create_exam(){
-  string course_name = userinput::get_course_name();
-  string day = userinput::get_day();
-  string time = userinput::get_time();
+  string course_name = userinput::course_name::get();
+  string day = userinput::day::get();
+  string time = userinput::starting_time::get();
   cout << "Please enter number of students: " << endl;
   int student_number;
   cin >> student_number;
@@ -82,27 +82,27 @@ int main(){
         create_exam();
       }break;
       case 2:{
-        string class_name = userinput::get_class_name();
-        if(classroom::exists(class_name)){
-          //classroom::get(class_name).print_schedule();
+        string classroom_name = userinput::classroom_name::get();
+        if(classroom::exists(classroom_name)){
+          //classroom::get(classroom_name).print_schedule();
         }else{
           cout << "There is no such class" << endl;
         }
       }break;
       case 3:{
-        string starting_time = userinput::get_starting_time();
-        string day = userinput::get_day();
+        string starting_time = userinput::starting_time::get();
+        string day = userinput::day::get();
         classroom::get_free_classes_for_starting_time(starting_time, day);
       }break;
       case 4:{
-        string class_name = userinput::get_class_name();
-        string day = userinput::get_day();
-        classroom::get_free_times_for_class_and_day(class_name, day);
+        string classroom_name = userinput::classroom_name::get();
+        string day = userinput::day::get();
+        classroom::get_free_times_for_class_and_day(classroom_name, day);
       }break;
       case 5:{
-        string class_name = userinput::get_class_name();
-        string starting_time = userinput::get_starting_time();
-        classroom::get_free_days_for_class_and_starting_time(class_name, starting_time);
+        string classroom_name = userinput::classroom_name::get();
+        string starting_time = userinput::starting_time::get();
+        classroom::get_free_days_for_class_and_starting_time(classroom_name, starting_time);
       }break;
       case 0:{
         exit = true;

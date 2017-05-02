@@ -13,26 +13,42 @@ string userinput::starting_time::get(){
       valid_starting_time = true;
     }
   }
-  return parse(starting_time);
+  return starting_time;
 }
-//have to check for class existence too
+
+//todo
+bool userinput::starting_time::try_parse(string starting_time){
+  return true;
+}
+
 string userinput::classroom_name::get(){
-  string classroom_name;
+  string classroom_name = "";
   bool valid_classroom = false;
   while(!valid_classroom){
     bool valid_classroom_name = false;
-    string classroom_name;
+    string cur_cr;
     while(!valid_classroom_name){
       cout << "Please enter a classroom name (e.g. D301 or D505): ";
-      cin >> classroom_name;
-      if(try_parse(classroom_name)){
+      cin >> cur_cr;
+      if(try_parse(cur_cr)){
         valid_classroom_name = true;
+        classroom_name = cur_cr;
       }
+    }
+    if(classroom_name != ""){
+      if(classroom::exists(classroom_name)){
+        valid_classroom = true;
+      }
+    }
   }
-  return parse(classroom_name);
-  }
+  return classroom_name;
 }
+
 //todo
+bool userinput::classroom_name::try_parse(std::string classroom_name){
+  return true;
+}
+
 string userinput::day::get(){
   bool valid_day = false;
   string day;
@@ -43,7 +59,12 @@ string userinput::day::get(){
       valid_day = true;
     }
   }
-  return parse(day);
+  return day;
+}
+
+//todo
+bool userinput::day::try_parse(string day){
+  return true;
 }
 
 string userinput::course_name::get(){
@@ -56,5 +77,26 @@ string userinput::course_name::get(){
       valid_course_name = true;
     }
   }
-  return parse(course_name);
+  return course_name;
+}
+
+//todo
+bool userinput::course_name::try_parse(string course_name){
+  return true;
+}
+
+int userinput::get_int(){
+  bool valid_int = false;
+  int number;
+  while(!valid_int){
+    string num_str;
+    int num;
+    cin >> num_str;
+    try{
+      num = stoi(num_str);
+      valid_int = true;
+      number = num;
+    }catch(invalid_argument){}
+  }
+  return number;
 }
