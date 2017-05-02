@@ -18,7 +18,7 @@ bool classroom::exists(string class_name){
 //  return classroom();
 //}
 
-string classroom::get_free_classes_for_interval_and_day(string interval, string day){
+string classroom::get_free_classes_for_starting_time(string starting_time, string day){
   return "";
 }
 
@@ -26,7 +26,7 @@ string classroom::get_free_times_for_class_and_day(string class_name, string day
   return "";
 }
 
-string classroom::get_free_days_for_class_and_interval(string class_name, string interval){
+string classroom::get_free_days_for_class_and_starting_time(string class_name, string starting_time){
   return "";
 }
 

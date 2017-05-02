@@ -17,9 +17,9 @@ class classroom{
 
     std::string print_schedule();
 
-    static std::string get_free_classes_for_interval_and_day(std::string interval, std::string day);
+    static std::string get_free_classes_for_starting_time(std::string starting_time, std::string day);
     static std::string get_free_times_for_class_and_day(std::string class_name, std::string day);
-    static std::string get_free_days_for_class_and_interval(std::string class_name, std::string interval);
+    static std::string get_free_days_for_class_and_starting_time(std::string class_name, std::string starting_time);
   private:
     static std::vector<std::shared_ptr<classroom>> classrooms_;
 

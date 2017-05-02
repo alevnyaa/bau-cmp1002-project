@@ -3,17 +3,17 @@
 #include "classroom.h"
 using namespace std;
 
-string userinput::get_interval(){
-  bool valid_interval = false;
-  string interval;
-  while(!valid_interval){
-    cout << "Please enter time interval (e.g. 7:30-13:30 or 16:30-18:20): ";
-    cin >> interval;
-    if(try_parse_interval(interval)){
-      valid_interval = true;
+string userinput::get_starting_time(){
+  bool valid_starting_time = false;
+  string starting_time;
+  while(!valid_starting_time){
+    cout << "Please enter starting time (e.g. 8:30 or 16:30): ";
+    cin >> starting_time;
+    if(try_parse_starting_time(starting_time)){
+      valid_starting_time = true;
     }
   }
-  return interval;
+  return starting_time;
 }
 
 string userinput::get_class_name(){
@@ -76,8 +76,8 @@ int userinput::get_int(){
   return i;
 }
 
-bool userinput::try_parse_interval(string interval){
-  // 7:30-13:30 or 16:30-18:20
+bool userinput::try_parse_starting_time(string starting_time){
+  // 8:30 or 16:30
   return true;
 }
 

@@ -12,7 +12,7 @@ void display_menu(){
   cout << "2. Show schedule for class" << endl;
   cout << "3. List available classes for time and day" << endl;
   cout << "4. List available hours for class at day" << endl;
-  cout << "5. List available days for class at time interval" << endl;
+  cout << "5. List available days for class at starting time" << endl;
   cout << "0. Exit" << endl;
 }
 
@@ -90,9 +90,9 @@ int main(){
         }
       }break;
       case 3:{
-        string interval = userinput::get_interval();
+        string starting_time = userinput::get_starting_time();
         string day = userinput::get_day();
-        classroom::get_free_classes_for_interval_and_day(interval, day);
+        classroom::get_free_classes_for_starting_time(starting_time, day);
       }break;
       case 4:{
         string class_name = userinput::get_class_name();
@@ -101,8 +101,8 @@ int main(){
       }break;
       case 5:{
         string class_name = userinput::get_class_name();
-        string interval = userinput::get_interval();
-        classroom::get_free_days_for_class_and_interval(class_name, interval);
+        string starting_time = userinput::get_starting_time();
+        classroom::get_free_days_for_class_and_starting_time(class_name, starting_time);
       }break;
       case 0:{
         exit = true;
