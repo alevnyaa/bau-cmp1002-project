@@ -53,7 +53,7 @@ string userinput::day::get(){
   bool valid_day = false;
   string day;
   while(!valid_day){
-    cout << "Please enter a classroom name (e.g. D301 or D505): ";
+    cout << "Please enter a day (e.g. Mon or Sun or 1 or 7): ";
     cin >> day;
     if(try_parse(day)){
       valid_day = true;
@@ -71,7 +71,7 @@ string userinput::course_name::get(){
   bool valid_course_name = false;
   string course_name;
   while(!valid_course_name){
-    cout << "Please enter a classroom name (e.g. D301 or D505): ";
+    cout << "Please enter a course name (e.g. MAT1051 or CMP1004): ";
     cin >> course_name;
     if(try_parse(course_name)){
       valid_course_name = true;
