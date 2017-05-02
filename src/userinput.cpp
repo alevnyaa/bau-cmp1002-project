@@ -3,97 +3,58 @@
 #include "classroom.h"
 using namespace std;
 
-string userinput::get_starting_time(){
+string userinput::starting_time::get(){
   bool valid_starting_time = false;
   string starting_time;
   while(!valid_starting_time){
     cout << "Please enter starting time (e.g. 8:30 or 16:30): ";
     cin >> starting_time;
-    if(try_parse_starting_time(starting_time)){
+    if(try_parse(starting_time)){
       valid_starting_time = true;
     }
   }
-  return starting_time;
+  return parse(starting_time);
 }
-
-string userinput::get_class_name(){
+//have to check for class existence too
+string userinput::classroom_name::get(){
+  string classroom_name;
   bool valid_classroom = false;
-  string class_name;
   while(!valid_classroom){
-    cout << "Please enter class name (e.g. D503 or D504): ";
-    cin >> class_name;
-    if(classroom::exists(class_name)){
-      valid_classroom = true;
-    }else{
-      cout << "No such class exists" << endl;
-    }
+    bool valid_classroom_name = false;
+    string classroom_name;
+    while(!valid_classroom_name){
+      cout << "Please enter a classroom name (e.g. D301 or D505): ";
+      cin >> classroom_name;
+      if(try_parse(classroom_name)){
+        valid_classroom_name = true;
+      }
   }
-  return class_name;
+  return parse(classroom_name);
+  }
 }
-
-string userinput::get_day(){
+//todo
+string userinput::day::get(){
   bool valid_day = false;
   string day;
   while(!valid_day){
-    cout << "Please enter day (e.g. Mon or Fri or 1 or 5): ";
+    cout << "Please enter a classroom name (e.g. D301 or D505): ";
     cin >> day;
-    if(try_parse_day(day)){
+    if(try_parse(day)){
       valid_day = true;
     }
   }
-  return day;
+  return parse(day);
 }
 
-string userinput::get_time(){
-  bool valid_time = false;
-  string time;
-  while(!valid_time){
-    cout << "Please enter exam time (e.g. 14:30 or 16:30): ";
-    cin >> time;
-    if(try_parse_time(time)){
-      valid_time = true;
-    }
-  }
-  return time;
-}
-
-string userinput::get_course_name(){
+string userinput::course_name::get(){
   bool valid_course_name = false;
   string course_name;
   while(!valid_course_name){
-    cout << "Please enter exam time (e.g. 14:30 or 16:30): ";
+    cout << "Please enter a classroom name (e.g. D301 or D505): ";
     cin >> course_name;
-    if(try_parse_course_name(course_name)){
+    if(try_parse(course_name)){
       valid_course_name = true;
     }
   }
-  return course_name;
+  return parse(course_name);
 }
-
-int userinput::get_int(){
-  int i;
-  cin >> i;
-  return i;
-}
-
-bool userinput::try_parse_starting_time(string starting_time){
-  // 8:30 or 16:30
-  return true;
-}
-
-bool userinput::try_parse_class_name(string class_name){
-  return true;
-}
-
-bool userinput::try_parse_day(string day){
-  return true;
-}
-
-bool userinput::try_parse_time(string time){
-  return true;
-}
-
-bool userinput::try_parse_course_name(string course_name){
-  return true;
-}
-
