@@ -1,6 +1,7 @@
 #include <iostream>
 #include "userinput.h"
 #include "classroom.h"
+#include "constants.h"
 using namespace std;
 
 string userinput::starting_time::get(){
@@ -16,9 +17,56 @@ string userinput::starting_time::get(){
   return starting_time;
 }
 
-//todo
+//todo is very different from rest, perhaps a restructure?
 bool userinput::starting_time::try_parse(string starting_time){
-  return true;
+  string hour_boilerplate;
+
+  if(starting_time.length() == 5){
+    hour_boilerplate = starting_time.substr(2, 3);
+  }else if(starting_time.length() == 4){
+    hour_boilerplate = starting_time.substr(1, 3);
+  }else{
+    return false;
+  }
+  
+  if( hour_boilerplate[0] != ':'
+      || hour_boilerplate[1] != '3'
+      || hour_boilerplate[2] != '0'){
+    return false;
+  }
+
+  if(starting_time.length() == 5){
+    if(!isdigit(starting_time[0])
+        || !isdigit(starting_time[1])){
+      return false;
+    }
+  }else{
+    if(!isdigit(starting_time[0])){
+      return false;
+    }
+  }
+
+  int cur_hour = 8;
+  int hours[LESSON_NUM];
+  for(int i=0; i<LESSON_NUM; i++){
+    hours[i] = cur_hour;
+    cur_hour += 2;
+  }
+
+  int hour_value;
+  if(starting_time.length() == 5){
+     hour_value = stoi(starting_time.substr(0,2));
+  }else{
+     hour_value = stoi(starting_time.substr(0,1));
+  }
+
+  for(int hour : hours){
+    if(hour_value == hour){
+      return true;
+    }
+  }
+
+  return false;
 }
 
 string userinput::classroom_name::get(){
@@ -44,9 +92,24 @@ string userinput::classroom_name::get(){
   return classroom_name;
 }
 
-//todo
-bool userinput::classroom_name::try_parse(std::string classroom_name){
-  return true;
+//todo make it work by dynamically looking at classrooms_ in classroom or directory
+bool userinput::classroom_name::try_parse(string classroom_name){
+  bool valid_classroom_name = true;
+  for(auto & c: classroom_name) c = toupper(c);
+    if(classroom_name != "D301" 
+        && classroom_name != "D302"
+        && classroom_name != "D303"
+        && classroom_name != "D304"
+        && classroom_name != "D306"
+        && classroom_name != "D308"
+        && classroom_name != "D501"
+        && classroom_name != "D502"
+        && classroom_name != "D504"
+        && classroom_name != "D505"
+        && classroom_name != "D506"){
+      valid_classroom_name = false;
+    }
+  return valid_classroom_name;
 }
 
 string userinput::day::get(){
@@ -62,9 +125,26 @@ string userinput::day::get(){
   return day;
 }
 
-//todo
+//todo work with array of options instead of && chain
 bool userinput::day::try_parse(string day){
-  return true;
+  bool valid_day = true;
+  for (auto & c: day) c = toupper(c);
+  if(day != "MON"
+      && day != "TUE"
+      && day != "WED"
+      && day != "THU"
+      && day != "FRI"
+      && day != "SAT"
+      && day != "SUN"
+      && day != "1"
+      && day != "2"
+      && day != "3"
+      && day != "4"
+      && day != "5"
+      && day != "6"
+      && day != "7") 
+  	valid_day = false;
+  return valid_day;
 }
 
 string userinput::course_name::get(){
@@ -80,9 +160,21 @@ string userinput::course_name::get(){
   return course_name;
 }
 
-//todo
+//todo work with utf8 instead of ascii
 bool userinput::course_name::try_parse(string course_name){
-  return true;
+  bool valid_course_name = true;
+  for (auto & z: course_name) z = toupper (z);
+  for ( int i = 0 ; i<3; i++){
+    if(!(course_name[i] < 91 && course_name[i] > 64)){
+     valid_course_name = false;
+    }
+  }
+  for (int i = 3; i<7; i++){
+    if(!(course_name[i]< 58 && course_name[i]> 47)){
+      valid_course_name = false;
+    }
+  }
+  return valid_course_name;
 }
 
 int userinput::get_int(){

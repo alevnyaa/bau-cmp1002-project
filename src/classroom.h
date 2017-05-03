@@ -6,8 +6,7 @@
 #include <memory>
 #include <queue>
 #include "exam.h"
-const int DAY_NUM = 7;
-const int LESSON_NUM = 7;
+#include "constants.h"
 
 class classroom{
   public:
