@@ -10,21 +10,26 @@
 
 class classroom{
   public:
-    classroom(std::vector<std::queue<char> > class_file);
+    classroom(std::queue<std::queue<char> > classroom_file);
 
-    static bool exists(std::string class_name);
-    static classroom get(std::string class_name);
+    static bool exists(std::string classroom_name);
+    static classroom get(std::string classroom_name);
+    static std::vector<std::shared_ptr<classroom> > get_all();
 
+    std::string get_name();
     std::string print_schedule();
 
-    static std::string get_free_classes_for_starting_time(std::string starting_time, std::string day);
-    static std::string get_free_times_for_class_and_day(std::string class_name, std::string day);
-    static std::string get_free_days_for_class_and_starting_time(std::string class_name, std::string starting_time);
+    static std::string get_free(std::string time, std::string day, int student_number);
+
+    static std::string print_free_classrooms_for_starting_time(std::string starting_time, std::string day);
+    static std::string print_free_times_for_classroom_and_day(std::string classroom_name, std::string day);
+    static std::string print_free_days_for_classroom_and_starting_time(std::string classroom_name, std::string starting_time);
   private:
     static std::vector<std::shared_ptr<classroom>> classrooms_;
 
-    std::string class_name_;
-    std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedules_;
+    std::string classroom_name_;
+    std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedule_;
+    int capacity_;
     std::vector<exam> exams_;
 };
 #endif

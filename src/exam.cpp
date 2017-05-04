@@ -14,6 +14,16 @@ exam::exam(string course_name,
   return;
 }
 
+string exam::print(){
+  string prnt_text = "";
+  prnt_text += "Day: " + day_ + "\n";
+  prnt_text += "Course name: " + course_name_ + "\n";
+  prnt_text += "Starting time: " + starting_time_ + "\n";
+  prnt_text += "Classroom name: " + classroom_name_ + "\n";
+  prnt_text += "Number of students: " + to_string(student_number_) + "\n";
+  return prnt_text;
+}
+
 //exam::operator std::string() const{
 //  return "";
 //}

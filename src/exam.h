@@ -9,6 +9,7 @@ class exam{
         std::string day, 
         std::string starting_time,
         int student_number);
+    std::string print();
     //operator std::string() const;
   private:
     std::string course_name_;
