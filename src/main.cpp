@@ -13,6 +13,13 @@ using namespace std;
 //change multiple layer queues into string streams
 //work on sending by reference instead of copy
 
+//std::ifstream in("myfile");
+//
+//std::stringstream buffer;
+//buffer << in.rdbuf();
+//
+//std::string contents(buffer.str());
+
 void display_menu(){
   cout << "1. Create Exam" << endl;
   cout << "2. Show schedule for classroom" << endl;
