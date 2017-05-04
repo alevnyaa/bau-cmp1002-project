@@ -6,69 +6,70 @@ vector<shared_ptr<classroom>> classroom::classrooms_ = vector<shared_ptr<classro
 array<array<string, LESSON_NUM>, DAY_NUM> schedule_;
 vector<exam> exams_ = vector<exam>();
 
-classroom::classroom(queue<queue<char> > classroom_file){
-  cout << "No crash yet" << endl;
-
-  if(classroom_file.empty()){
-    cout << "wtf" << endl;
+void classroom::skipallws(stringstream& ss){
+  while(isspace(ss.peek())){
+    ss.ignore();    
   }
+}
 
-  if(classroom_file.front().empty()){
-    cout << "wtf" << endl;
+void classroom::skipwsexceptnewline(stringstream& ss){
+  while(isspace(ss.peek()) && ss.peek() != '\n'){
+    ss.ignore();
   }
-  //why does this line crash?
-  queue<char> first_line = classroom_file.front();
+}
 
-  cout << "No crash yet" << endl;
-
-  classroom_file.pop();
-
-  cout << "No crash yet" << endl;
-
-  string classroom_name = "";
-  for(int i=0; i<4; i++){
-    classroom_name += first_line.front();
-    first_line.pop();
-  }
-  classroom_name = classroom_name;
-
-  cout << "No crash yet" << endl;
-
-  for(int i=0; i<8; i++){
-    first_line.pop();
-  }
-
-  string capacity_str = "";
-  while(!first_line.empty()){
-    capacity_str += first_line.front();
-    first_line.pop();
+classroom::classroom(const stringstream& classroom_file){
+  if(classroom_file.rdbuf()->in_avail() == 0){
+    cout << "wtf ss  empty" << endl;
   }
   
+  //classroom name
+  char classroom_name_c[4];
+  classroom_file.read(classroom_name_c, 4);
+  string classroom_name(classroom_name_c, 4);
+
+  //space between
+  skipwsexceptnewline(classroom_file);
+
+  //capacity keyword
+  classroom_file.ignore(8);
+
+  //capacity number
+  ostringstream capacity_ss(ostringstream::ate);
+  while(!isspace(classroom_file.peek())){
+    string s;
+    classroom_file >> s;
+    capacity_ss << s;
+  }
+
+  string capacity_str = capacity_ss.str();
   capacity_ = stoi(capacity_str);
 
-  classroom_file.pop();
+  //skipws until newline
+  skipallws(classroom_file);
 
+  //is this necessary?
   for(auto day : schedule_){
     for(string hour : day){
-      hour = "";
+      hour = "<empty>";
     }
   }
 
-  while(!classroom_file.empty()){
+  //reading rest of lines to set schedule
+  while(classroom_file.rdbuf()->in_avail()){
+    //perhaps dec is necessary
     int schedule_day;
-    queue<char> current_line = classroom_file.front();
-    classroom_file.pop();
-    schedule_day = current_line.front();
-    current_line.pop();
-
-    while(!current_line.empty()){
-      int schedule_hour = current_line.front();
-      current_line.pop();
-      schedule_[schedule_day][schedule_hour] = "Class";
+    schedule_day = classroom_file.get();
+    while(classroom_file.peek() != '\n'){
+      skipwsexceptnewline(classroom_file);
+      int schedule_time;
+      schedule_time = classroom_file.get();
+      skipwsexceptnewline(classroom_file);
+      schedule_[schedule_day][schedule_time] = "Lesson";
     }
   }
 
-  classroom::classrooms_.push_back(shared_ptr<classroom>(this));
+  classrooms_.push_back(shared_ptr<classroom>(this));
 }
 
 bool classroom::exists(string classroom_name){

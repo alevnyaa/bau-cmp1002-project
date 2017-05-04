@@ -5,12 +5,13 @@
 #include <vector>
 #include <memory>
 #include <queue>
+#include <sstream>
 #include "exam.h"
 #include "constants.h"
 
 class classroom{
   public:
-    classroom(std::queue<std::queue<char> > classroom_file);
+    classroom(const std::stringstream& classroom_file);
 
     static bool exists(std::string classroom_name);
     static classroom get(std::string classroom_name);
@@ -18,6 +19,9 @@ class classroom{
 
     std::string get_name();
     std::string print_schedule();
+
+    void skipallws(std::stringstream& ss);
+    void skipwsexceptnewline(std::stringstream& ss);
 
     static std::string get_free(std::string time, std::string day, int student_number);
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <queue>
 #include <boost/filesystem.hpp>
@@ -37,39 +38,29 @@ int initialize_classrooms(){
   path p = "files/classrooms/";
   //files of lines of queues of chars
   //vector of vector of queue of char
-  vector<queue<queue<char> > > classroom_files;
   if(exists(p)){
     for (directory_entry& x : directory_iterator(p)){
-      queue<queue<char> > cur_file;
-
-      ifstream file(x.path().filename().string());
-      
-      queue<char> cur_line;
-      char ch;
-      while (file >> noskipws >> ch) {
-        if(!isspace(ch)){
-          cur_line.push(ch);
-        }else if(ch == '\n'){
-          cur_file.push(cur_line);
-          cur_line = queue<char>();
-        }
+      stringstream cur_file;
+      string full_path = p.string();
+      full_path += x.path().filename().string();
+      ifstream file(full_path);
+      if(file){
+        cur_file << file.rdbuf();
+        file.close();
+        cout << "No crash yet." << endl;
+        classroom* cr = new classroom(cur_file);
+        cout << "No crash yet2." << endl;
+        shared_ptr<classroom> cr_ptr = shared_ptr<classroom>(cr);
+        cout << "No crash yet3." << endl;
+      }else{
+        cout << "Not file?" << endl;
+        return 2;
       }
-      classroom_files.push_back(cur_file); 
-      cur_file = queue<queue<char> >();
-      file.close();
     }
   }else{
     cout << "Classroom files are missing!" << endl;
     return 1;
   }
-  cout << "Got all the way to classroom creation" << endl;
-  int i = 1;
-  for(auto cf : classroom_files){
-    cout << "Number of loops: " << i << endl;
-    i++;
-    shared_ptr<classroom> cr = shared_ptr<classroom>(new classroom(cf));
-  }
-  cout << "Got past the classroom creation" << endl;
   return 0;
 }
 
