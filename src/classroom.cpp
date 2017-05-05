@@ -72,18 +72,20 @@ bool classroom::exists(string classroom_name){
   return true;
 }
 
-//classroom classroom::get(string classroom_name){
-//  return classroom();
-//}
-
-vector<shared_ptr<classroom> > classroom::get_all(){
-  return classroom::classrooms_;
+//todo
+classroom& classroom::get(string classroom_name){
+  return *classrooms_[0];
 }
 
-string classroom::get_free(string time, string day, int student_number){
-  for(auto classroom : classroom::classrooms_){
+const vector<shared_ptr<classroom> >& classroom::get_all(){
+  return classrooms_;
+}
+
+//todo
+classroom& classroom::get_free(string time, string day, int student_number){
+  for(auto classroom : classrooms_){
   }
-  return ""; 
+  return *classrooms_[0]; 
 }
 
 string classroom::print_free_classrooms_for_starting_time_and_day(string starting_time, string day){

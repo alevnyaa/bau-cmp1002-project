@@ -54,8 +54,8 @@ void create_exam(){
   int student_number;
   std::cin >> student_number;
 
-  std::string classroom_name = classroom::get_free(day, time, student_number);
-  exam new_exam(course_name, classroom_name, day, time, student_number);
+  classroom* free_cr = &classroom::get_free(day, time, student_number);
+  exam new_exam(course_name, free_cr->get_name(), day, time, student_number);
   std::ofstream out("exam.txt");
   out << new_exam.print();
   out.close();
@@ -67,8 +67,8 @@ int main(int argc, char* argv[]){
     std::cout << "Usage: exameditor directory-of-classroom-files" << std::endl;
     return 1;
   }
-  if(!initialize_classrooms(argv[1])){
-    std::cout << "Can't find classroom setup texts in \"files/\" directory to initialize classrooms" << std::endl;
+  if(initialize_classrooms(argv[1])){
+    std::cout << "Error during classroom initialization" << std::endl;
     std::cout << "Terminating..." << std::endl;
     return 1; 
   };
@@ -83,26 +83,22 @@ int main(int argc, char* argv[]){
       }break;
       case 2:{
         std::string classroom_name = userinput::classroom_name::get();
-        if(classroom::exists(classroom_name)){
-          //classroom::get(classroom_name).print_schedule();
-        }else{
-          std::cout << "There is no such classroom" << std::endl;
-        }
+        std::cout << classroom::get(classroom_name).print_schedule();
       }break;
       case 3:{
         std::string starting_time = userinput::starting_time::get();
         std::string day = userinput::day::get();
-        classroom::print_free_classrooms_for_starting_time_and_day(starting_time, day);
+        std::cout << classroom::print_free_classrooms_for_starting_time_and_day(starting_time, day);
       }break;
       case 4:{
         std::string classroom_name = userinput::classroom_name::get();
         std::string day = userinput::day::get();
-        classroom::print_free_times_for_classroom_and_day(classroom_name, day);
+        std::cout << classroom::print_free_times_for_classroom_and_day(classroom_name, day);
       }break;
       case 5:{
         std::string classroom_name = userinput::classroom_name::get();
         std::string starting_time = userinput::starting_time::get();
-        classroom::print_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
+        std::cout << classroom::print_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
       }break;
       case 0:{
         exit = true;

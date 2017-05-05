@@ -1,6 +1,6 @@
 CC := g++ -Wall -std=c++11
 TARGET := bin/exameditor
-LIB := -I./boost -lboost_system -lboost_filesystem
+LIB := -lboost_system -lboost_filesystem
 
 SOURCES := $(shell find src -type f -name *.cpp)
 OBJECTS := $(patsubst src/%,build/%,$(SOURCES:.cpp=.o))
@@ -22,7 +22,7 @@ build/%.o: src/%.cpp src/%.h
 	$(CC) -o $@ $< -c
 
 clean: 
-	rm -r bin build
+	rm -rf bin build
 	
 #build/classroom.o: src/classroom.cpp src/classroom.h
 #	$(CC) -o $@ $< -c
