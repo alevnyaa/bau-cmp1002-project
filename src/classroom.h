@@ -23,7 +23,7 @@ class classroom{
     static std::string print_free_times_for_classroom_and_day(std::string classroom_name, std::string day);
     static std::string print_free_days_for_classroom_and_starting_time(std::string classroom_name, std::string starting_time);
 
-    classroom(std::ifstream& classroom_file);
+    classroom(std::ifstream& infile);
 
     std::string get_name();
     std::string print_schedule();

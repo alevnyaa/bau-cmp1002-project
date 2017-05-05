@@ -13,11 +13,11 @@ build/libexameditor.a: build/classroom.o build/exam.o build/userinput.o
 	mkdir -p build
 	ar rvs build/libexameditor.a $^
 
-build/main.o: src/main.cpp
+build/main.o: src/main.cpp src/constants.h
 	mkdir -p build
 	$(CC) -o $@ $< -c
 
-build/%.o: src/%.cpp src/%.h
+build/%.o: src/%.cpp src/%.h src/constants.h
 	mkdir -p build
 	$(CC) -o $@ $< -c
 

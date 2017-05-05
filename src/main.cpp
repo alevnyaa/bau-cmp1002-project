@@ -8,6 +8,7 @@
 #include "userinput.h"
 #include "exam.h"
 #include "classroom.h"
+#include "constants.h"
 
 std::string display_menu(){
   std::string menu = "";
@@ -30,12 +31,14 @@ int initialize_classrooms(char* path_str){
         std::string full_path = path_str + dir_entry.path().filename().string();
         std::ifstream infile(full_path);
         if(infile){
+          if(DEBUG) std::cout << "DEBUG: Currently making " << dir_entry.path().filename() << std::endl;
           classroom* new_cr = new classroom(infile);
         }else{
           std::cout << "Not file?" << std::endl;
           return 1;
         }
       }
+      if(DEBUG) std::cout << "DEBUG: Initialize class for ended" << std::endl;
     }else{
       std::cout << "Path not a directory" << std::endl;
     }
@@ -43,6 +46,7 @@ int initialize_classrooms(char* path_str){
     std::cout << "Classroom files are missing!" << std::endl;
     return 1;
   }
+  if(DEBUG) std::cout << "DEBUG: Initialized classes." << std::endl;
   return 0;
 }
 
@@ -83,6 +87,7 @@ int main(int argc, char* argv[]){
       }break;
       case 2:{
         std::string classroom_name = userinput::classroom_name::get();
+        if(DEBUG) std::cout << "DEBUG: Got class 0" << std::endl;
         std::cout << classroom::get(classroom_name).print_schedule();
       }break;
       case 3:{
