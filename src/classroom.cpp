@@ -18,15 +18,16 @@ void classroom::skipwsexceptnewline(stringstream& ss){
   }
 }
 
-classroom::classroom(const stringstream& classroom_file){
+classroom::classroom(stringstream& classroom_file){
   if(classroom_file.rdbuf()->in_avail() == 0){
     cout << "wtf ss  empty" << endl;
   }
   
   //classroom name
-  char classroom_name_c[4];
+  char* classroom_name_c = new char[4];
   classroom_file.read(classroom_name_c, 4);
   string classroom_name(classroom_name_c, 4);
+  delete[] classroom_name_c;
 
   //space between
   skipwsexceptnewline(classroom_file);
@@ -43,7 +44,9 @@ classroom::classroom(const stringstream& classroom_file){
   }
 
   string capacity_str = capacity_ss.str();
+  cout << "Capacity_str is " << capacity_str << endl;
   capacity_ = stoi(capacity_str);
+  cout << "Crashed yet? Nope." << endl;
 
   //skipws until newline
   skipallws(classroom_file);
@@ -95,7 +98,7 @@ string classroom::get_free(string time, string day, int student_number){
   return ""; 
 }
 
-string classroom::print_free_classrooms_for_starting_time(string starting_time, string day){
+string classroom::print_free_classrooms_for_starting_time_and_day(string starting_time, string day){
   return "";
 }
 

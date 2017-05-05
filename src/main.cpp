@@ -86,18 +86,6 @@ int main(){
     cout << "Terminating..." << endl;
     return 1; 
   };
-  vector<shared_ptr<classroom> > classrooms = classroom::get_all();
-  for(auto cr : classrooms){
-    cout << cr->get_name() << endl; 
-  }
-}
-
-/*int main(){
-  if(initialize_classrooms()==1){
-    cout << "Can't find classroom setup texts in \"files/\" directory to initialize classrooms" << endl;
-    cout << "Terminating..." << endl;
-    return 1; 
-  };
   bool exit = false;
   while(!exit){
     display_menu();
@@ -118,17 +106,17 @@ int main(){
       case 3:{
         string starting_time = userinput::starting_time::get();
         string day = userinput::day::get();
-        classroom::get_free_classrooms_for_starting_time(starting_time, day);
+        classroom::print_free_classrooms_for_starting_time_and_day(starting_time, day);
       }break;
       case 4:{
         string classroom_name = userinput::classroom_name::get();
         string day = userinput::day::get();
-        classroom::get_free_times_for_classroom_and_day(classroom_name, day);
+        classroom::print_free_times_for_classroom_and_day(classroom_name, day);
       }break;
       case 5:{
         string classroom_name = userinput::classroom_name::get();
         string starting_time = userinput::starting_time::get();
-        classroom::get_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
+        classroom::print_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
       }break;
       case 0:{
         exit = true;
@@ -137,4 +125,4 @@ int main(){
         cout << "Your input does not match any operation" << endl;
     }
   }
-}*/
+}
