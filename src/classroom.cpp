@@ -6,20 +6,8 @@ vector<shared_ptr<classroom>> classroom::classrooms_ = vector<shared_ptr<classro
 array<array<string, LESSON_NUM>, DAY_NUM> schedule_;
 vector<exam> exams_ = vector<exam>();
 
-void classroom::skipallws(stringstream& ss){
-  while(isspace(ss.peek())){
-    ss.ignore();    
-  }
-}
-
-void classroom::skipwsexceptnewline(stringstream& ss){
-  while(isspace(ss.peek()) && ss.peek() != '\n'){
-    ss.ignore();
-  }
-}
-
-classroom::classroom(stringstream& classroom_file){
-  if(classroom_file.rdbuf()->in_avail() == 0){
+classroom::classroom(ifstream& classroom_file){
+/*  if(classroom_file.rdbuf()->in_avail() == 0){
     cout << "wtf ss  empty" << endl;
   }
   
@@ -72,7 +60,7 @@ classroom::classroom(stringstream& classroom_file){
     }
   }
 
-  classrooms_.push_back(shared_ptr<classroom>(this));
+  classrooms_.push_back(shared_ptr<classroom>(this));*/
 }
 
 bool classroom::exists(string classroom_name){

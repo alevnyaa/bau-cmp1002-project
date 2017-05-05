@@ -11,7 +11,7 @@
 
 class classroom{
   public:
-    classroom(std::stringstream& classroom_file);
+    classroom(std::ifstream& classroom_file);
 
     static bool exists(std::string classroom_name);
     static classroom get(std::string classroom_name);
