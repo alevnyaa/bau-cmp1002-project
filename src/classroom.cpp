@@ -79,6 +79,7 @@ bool classroom::exists(std::string classroom_name){
 classroom_ptr classroom::get(std::string classroom_name){
   for(auto cr : classrooms_){
     if(cr->get_name() == classroom_name){
+      if(DEBUG) std::cout << "DEBUG: Got class: " << cr->get_name() << std::endl;
       return cr;
     }
   }
@@ -112,15 +113,41 @@ classroom_ptr classroom::get_free(int time, int day, int student_number){
 }
 
 std::string classroom::print_free_classrooms_for_starting_time_and_day(int starting_time, int day){
-  return "";
+  std::vector<classroom_ptr> crs;
+  for(auto cr : classrooms_){
+    if(cr->get_schedule().at(starting_time).at(day) == "Empty"){
+      crs.push_back(cr);
+    }
+  }
+  std::string prnt_txt;
+  for(auto cr : crs){
+    prnt_txt += cr->get_name() + "\n";
+  }
+  return prnt_txt;
 }
 
 std::string classroom::print_free_times_for_classroom_and_day(std::string classroom_name, int day){
-  return "";
+  if(DEBUG) std::cout << "DEBUG: Creating prnt_txt" << std::endl;
+  std::string prnt_txt;
+  classroom_ptr cr = get(classroom_name);
+  for(int i=0; i<LESSON_NUM; i++){
+    if(DEBUG) std::cout << "DEBUG: Accessing class " << i << "/" << day << std::endl;
+    if(cr->get_schedule().at(i).at(day) == "Empty"){
+      prnt_txt += std::to_string(i * 2 + 8) + ":30" + "\n"; 
+    }
+  }
+  return prnt_txt;
 }
 
 std::string classroom::print_free_days_for_classroom_and_starting_time(std::string classroom_name, int starting_time){
-  return "";
+  std::string prnt_txt;
+  classroom_ptr cr = get(classroom_name);
+  for(int i=0; i<DAY_NUM; i++){
+    if(cr->get_schedule().at(starting_time).at(i) == "Empty"){
+      prnt_txt += std::to_string(i + 1) + "\n"; 
+    }
+  }
+  return prnt_txt;
 }
 
 std::string classroom::get_name(){

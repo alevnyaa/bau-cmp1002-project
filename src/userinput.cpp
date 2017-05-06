@@ -113,7 +113,7 @@ int userinput::day::get(){
   }
   int day;
   if(day_str.length() == 1){
-    day = day_str[0] - 'O' - 1;
+    day = day_str[0] - '0' - 1;
   }else{
     for(auto & c: day_str) c = toupper(c);
     if(day_str == "MON"){
@@ -132,6 +132,7 @@ int userinput::day::get(){
       day = 6;
     }
   }
+  if(DEBUG) std::cout << "DEBUG: Returning day num " << day << std::endl;
   return day;
 }
 
