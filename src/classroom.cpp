@@ -5,7 +5,8 @@
 std::vector<std::shared_ptr<classroom>> classroom::classrooms_ = std::vector<std::shared_ptr<classroom> >();
 
 classroom::classroom(std::ifstream& infile){
-  infile.unsetf(std::ios_base::skipws);
+  std::vector<std::string> empty_hour = std::vector<std::string>(7, "Empty");
+  std::vector<std::vector<std::string> > schedule_ = std::vector<std::vector<std::string> >(5, empty_hour);
 
   std::queue<char> file;
   std::string line;
@@ -118,8 +119,19 @@ const std::vector<std::shared_ptr<classroom> >& classroom::get_all(){
   return classrooms_;
 }
 
-//todo
+//todo TODO don't throw error?
 classroom& classroom::get_free(std::string time, std::string day, int student_number){
+  for(auto cr : classrooms_){
+    int capacity = cr->get_capacity();
+    std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedule = cr->get_schedule();
+    if(capacity >= student_number 
+        && schedule[day][time] == "Empty"){
+      if(DEBUG) std::cout << "DEBUG: Gave class " << cr->get_name() << std::endl;
+      return *cr;
+    }
+  }
+  std::cout << "Couldn't find free classroom. Terminating..." << std::endl;
+  throw 20;
   return *classrooms_[0]; 
 }
 
@@ -138,6 +150,16 @@ std::string classroom::print_free_days_for_classroom_and_starting_time(std::stri
 std::string classroom::get_name(){
   if(DEBUG) std::cout << "DEBUG: Got name " << classroom_name_ << std::endl;
   return classroom_name_;
+}
+
+int classroom::get_capacity(){
+  if(DEBUG) std::cout << "DEBUG: Got capacity " << capacity_ << std::endl;
+  return capacity_;
+}
+
+std::array<std::array<std::string, DAY_NUM>, LESSON_NUM>& classroom::get_schedule(){
+  if(DEBUG) std::cout << "DEBUG: Got capacity " << capacity_ << std::endl;
+  return schedule_;
 }
 
 std::string classroom::print_schedule(){

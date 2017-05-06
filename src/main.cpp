@@ -11,7 +11,7 @@
 #include "constants.h"
 
 std::string display_menu(){
-  std::string menu = "";
+  std::string menu;
   menu += "1. Create Exam\n";
   menu += "2. Show schedule for classroom\n";
   menu += "3. List available classrooms for time and day\n";
@@ -58,8 +58,8 @@ void create_exam(){
   int student_number;
   std::cin >> student_number;
 
-  classroom* free_cr = &classroom::get_free(day, time, student_number);
-  exam new_exam(course_name, free_cr->get_name(), day, time, student_number);
+  classroom free_cr = classroom::get_free(day, time, student_number);
+  exam new_exam(course_name, free_cr.get_name(), day, time, student_number);
   std::ofstream out("exam.txt");
   out << new_exam.print();
   out.close();

@@ -26,12 +26,14 @@ class classroom{
     classroom(std::ifstream& infile);
 
     std::string get_name();
+    int get_capacity();
+    std::vector<std::vector<std::string>, >& get_schedule();
     std::string print_schedule();
   private:
     static std::vector<classroom_ptr> classrooms_;
 
     std::string classroom_name_;
-    std::array<std::array<std::string, DAY_NUM>, LESSON_NUM> schedule_;
+    std::vector<std::vector<std::string, DAY_NUM>, LESSON_NUM> schedule_;
     int capacity_;
     std::vector<exam> exams_;
 };
