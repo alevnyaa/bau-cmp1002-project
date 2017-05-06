@@ -1,7 +1,6 @@
 #ifndef USERINPUT_H
 #define USERINPUT_H
 #include <string>
-#include <iostream>
 namespace userinput{
   namespace starting_time{
     int get();

@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory>
 #include <queue>
-#include <sstream>
 #include "exam.h"
 #include "constants.h"
 class classroom;
@@ -34,6 +33,5 @@ class classroom{
     std::string classroom_name_;
     std::vector<std::vector<std::string> > schedule_;
     int capacity_;
-    std::vector<exam> exams_;
 };
 #endif

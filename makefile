@@ -29,6 +29,10 @@ build/userinput.o: src/userinput.cpp src/userinput.h src/classroom.h src/constan
 	mkdir -p build
 	$(CC) -o $@ $< -c
 
+build/invigilator.o: src/invigilator.cpp src/invigilator.h src/constants.h
+	mkdir -p build
+	$(CC) -o $@ $< -c
+
 clean: 
 	rm -rf bin build exam.txt
 	

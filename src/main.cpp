@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <queue>
 #include <boost/filesystem.hpp>
@@ -23,13 +22,16 @@ std::string display_menu(){
 }
 
 int initialize_classrooms(char* path_str){
-  boost::filesystem::path p(path_str);
+  char* path_str_classrooms = path_str;
+  path_str_classrooms += "classrooms/";
+  boost::filesystem::path p(path_str_classrooms);
   //files of lines of queues of chars
   //vector of vector of queue of char
   if(exists(p)){
     if(is_directory(p)){
       for(boost::filesystem::directory_entry& dir_entry : boost::filesystem::directory_iterator(p)){
-        std::string full_path = path_str + dir_entry.path().filename().string();
+        std::string full_path = path_str;
+        full_path += dir_entry.path().filename().string();
         std::ifstream infile(full_path);
         if(infile){
           if(DEBUG) std::cout << "DEBUG: Currently making " << dir_entry.path().filename().string() << std::endl;
