@@ -70,45 +70,27 @@ bool userinput::starting_time::try_parse(string starting_time){
 }
 
 string userinput::classroom_name::get(){
-  string classroom_name = "";
-  bool valid_classroom = false;
-  while(!valid_classroom){
-    bool valid_classroom_name = false;
-    string cur_cr;
-    while(!valid_classroom_name){
-      cout << "Please enter the classroom name (e.g. D301 or D505): ";
-      cin >> cur_cr;
-      if(try_parse(cur_cr)){
-        valid_classroom_name = true;
-        classroom_name = cur_cr;
-      }
-    }
-    if(classroom_name != ""){
-      if(classroom::exists(classroom_name)){
-        valid_classroom = true;
-      }
+  string classroom_name;
+  bool valid_classroom_name = false;
+  while(!valid_classroom_name){
+    cout << "Please enter the classroom name (e.g. D301 or D505): ";
+    cin >> classroom_name;
+    for(auto & c: classroom_name) c = toupper(c);
+    if(try_parse(classroom_name)){
+      valid_classroom_name = true;
     }
   }
   return classroom_name;
 }
 
-//todo make it work by dynamically looking at classrooms_ in classroom or directory
 bool userinput::classroom_name::try_parse(string classroom_name){
-  bool valid_classroom_name = true;
-  for(auto & c: classroom_name) c = toupper(c);
-    if(classroom_name != "D301" 
-        && classroom_name != "D302"
-        && classroom_name != "D303"
-        && classroom_name != "D304"
-        && classroom_name != "D306"
-        && classroom_name != "D308"
-        && classroom_name != "D501"
-        && classroom_name != "D502"
-        && classroom_name != "D504"
-        && classroom_name != "D505"
-        && classroom_name != "D506"){
-      valid_classroom_name = false;
-    }
+  bool valid_classroom_name = false;
+  if(classroom::exists(classroom_name)){
+    valid_classroom_name = true;    
+  }else{
+    std::cout << "This classroom does not exist" << std::endl;
+  }
+
   return valid_classroom_name;
 }
 

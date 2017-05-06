@@ -31,7 +31,7 @@ class classroom{
     static std::vector<classroom_ptr> classrooms_;
 
     std::string classroom_name_;
-    std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedule_;
+    std::array<std::array<std::string, DAY_NUM>, LESSON_NUM> schedule_;
     int capacity_;
     std::vector<exam> exams_;
 };
