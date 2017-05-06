@@ -20,7 +20,7 @@ int userinput::starting_time::get(){
   }else{
     starting_time = (stoi(starting_time_str.substr(0.2)) - 8) / 2;
   }
-  if(DEBUG) std::cout << "Starting time str: " << starting_time_str << " Int: " << starting_time << std::endl;
+  if(DEBUG) std::cout << "DEBUG: Starting time str: " << starting_time_str << " Int: " << starting_time << std::endl;
   return starting_time;
 }
 
