@@ -7,10 +7,12 @@ int userinput::starting_time::get(){
   bool valid_starting_time = false;
   std::string starting_time_str;
   while(!valid_starting_time){
-    std::cout << "Please enter the starting time (e.g. 8:30 or 16:30): ";
+    std::cout << "Please enter the starting time (e.g. 8:30 or 16:30)\n>>";
     std::cin >> starting_time_str;
     if(try_parse(starting_time_str)){
       valid_starting_time = true;
+    }else{
+      std::cout << "Invalid starting time. Check the format!" << std::endl;
     }
   }
   int starting_time;
@@ -80,11 +82,13 @@ std::string userinput::classroom_name::get(){
   std::string classroom_name;
   bool valid_classroom_name = false;
   while(!valid_classroom_name){
-    std::cout << "Please enter the classroom name (e.g. D301 or D505): ";
+    std::cout << "Please enter the classroom name (e.g. D301 or D505)\n>>";
     std::cin >> classroom_name;
     for(auto & c: classroom_name) c = toupper(c);
     if(try_parse(classroom_name)){
       valid_classroom_name = true;
+    }else{
+      std::cout << "Invalid classroom name. Check the format!" << std::endl;
     }
   }
   return classroom_name;
@@ -105,10 +109,12 @@ int userinput::day::get(){
   bool valid_day = false;
   std::string day_str;
   while(!valid_day){
-    std::cout << "Please enter the day (e.g. Mon or Sun or 1 or 7): ";
+    std::cout << "Please enter the day (e.g. Mon or Sun or 1 or 7)\n>>";
     std::cin >> day_str;
     if(try_parse(day_str)){
       valid_day = true;
+    }else{
+      std::cout << "Invalid day! Check the format." << std::endl;
     }
   }
   int day;
@@ -162,10 +168,12 @@ std::string userinput::course_name::get(){
   bool valid_course_name = false;
   std::string course_name;
   while(!valid_course_name){
-    std::cout << "Please enter the course name (e.g. MAT1051 or CMP1004): ";
+    std::cout << "Please enter the course name (e.g. MAT1051 or CMP1004)\n>>";
     std::cin >> course_name;
     if(try_parse(course_name)){
       valid_course_name = true;
+    }else{
+      std::cout << "Invalid course name! Check the format." << std::endl;
     }
   }
   return course_name;

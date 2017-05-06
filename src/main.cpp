@@ -17,6 +17,7 @@ std::string display_menu(){
   menu += "3. List available classrooms for time and day\n";
   menu += "4. List available hours for classroom at day\n";
   menu += "5. List available days for classroom at starting time\n";
+  menu += "9. Print this help menu again\n";
   menu += "0. Exit\n";
   return menu;
 }
@@ -54,7 +55,7 @@ void create_exam(){
   std::string course_name = userinput::course_name::get();
   int day = userinput::day::get();
   int time = userinput::starting_time::get();
-  std::cout << "Please enter number of students: ";
+  std::cout << "Please enter number of students\n>>";
   int student_number;
   std::cin >> student_number;
 
@@ -77,9 +78,9 @@ int main(int argc, char* argv[]){
     return 1; 
   };
   bool exit = false;
+  std::cout << display_menu();
   while(!exit){
-    std::cout << display_menu();
-    std::cout << "Waiting for input: ";
+    std::cout << ">>";
     int choice = userinput::get_int();
     switch(choice){
       case 1:{
@@ -103,6 +104,9 @@ int main(int argc, char* argv[]){
         std::string classroom_name = userinput::classroom_name::get();
         int starting_time = userinput::starting_time::get();
         std::cout << classroom::print_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
+      }break;
+      case 9:{
+        std::cout << display_menu();
       }break;
       case 0:{
         exit = true;
