@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <limits>
 #include <fstream>
@@ -113,15 +114,19 @@ classroom_ptr classroom::get_free(int time, int day, int student_number){
 }
 
 std::string classroom::print_free_classrooms_for_starting_time_and_day(int starting_time, int day){
-  std::vector<classroom_ptr> crs;
+  std::vector<std::string> cr_names;
   for(auto cr : classrooms_){
     if(cr->get_schedule().at(starting_time).at(day) == "Empty"){
-      crs.push_back(cr);
+      cr_names.push_back(cr->get_name());
     }
   }
+
+  if(DEBUG) std::cout << "DEBUG: Sorting names" << std::endl;
+  std::sort(cr_names.begin(), cr_names.end());
+
   std::string prnt_txt;
-  for(auto cr : crs){
-    prnt_txt += cr->get_name() + "\n";
+  for(auto cr_name : cr_names){
+    prnt_txt += cr_name + "\n";
   }
   return prnt_txt;
 }
