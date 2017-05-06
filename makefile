@@ -17,13 +17,25 @@ build/main.o: src/main.cpp src/constants.h
 	mkdir -p build
 	$(CC) -o $@ $< -c
 
-build/%.o: src/%.cpp src/%.h src/constants.h
+build/classroom.o: src/classroom.cpp src/classroom.h
+	mkdir -p build
+	$(CC) -o $@ $< -c
+
+build/exam.o: src/exam.cpp src/exam.h src/classroom.h
+	mkdir -p build
+	$(CC) -o $@ $< -c
+
+build/userinput.o: src/userinput.cpp src/userinput.h src/classroom.h src/constants.h
 	mkdir -p build
 	$(CC) -o $@ $< -c
 
 clean: 
 	rm -rf bin build exam.txt
 	
+#build/%.o: src/%.cpp src/%.h src/constants.h
+#	mkdir -p build
+#	$(CC) -o $@ $< -c
+
 #build/classroom.o: src/classroom.cpp src/classroom.h
 #	$(CC) -o $@ $< -c
 
