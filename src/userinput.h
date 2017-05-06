@@ -4,7 +4,7 @@
 #include <iostream>
 namespace userinput{
   namespace starting_time{
-    std::string get();
+    int get();
     bool try_parse(std::string starting_time);
   };
 
@@ -14,7 +14,7 @@ namespace userinput{
   };
 
   namespace day{
-    std::string get();
+    int get();
     bool try_parse(std::string day);
   };
 

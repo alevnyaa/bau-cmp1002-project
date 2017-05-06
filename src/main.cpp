@@ -52,14 +52,14 @@ int initialize_classrooms(char* path_str){
 
 void create_exam(){
   std::string course_name = userinput::course_name::get();
-  std::string day = userinput::day::get();
-  std::string time = userinput::starting_time::get();
+  int day = userinput::day::get();
+  int time = userinput::starting_time::get();
   std::cout << "Please enter number of students: ";
   int student_number;
   std::cin >> student_number;
 
-  classroom free_cr = classroom::get_free(day, time, student_number);
-  exam new_exam(course_name, free_cr.get_name(), day, time, student_number);
+  classroom_ptr free_cr = classroom::get_free(day, time, student_number);
+  exam new_exam(course_name, free_cr->get_name(), day, time, student_number);
   std::ofstream out("exam.txt");
   out << new_exam.print();
   out.close();
@@ -87,21 +87,21 @@ int main(int argc, char* argv[]){
       }break;
       case 2:{
         std::string classroom_name = userinput::classroom_name::get();
-        std::cout << classroom::get(classroom_name).print_schedule();
+        std::cout << classroom::get(classroom_name)->print_schedule();
       }break;
       case 3:{
-        std::string starting_time = userinput::starting_time::get();
-        std::string day = userinput::day::get();
+        int starting_time = userinput::starting_time::get();
+        int day = userinput::day::get();
         std::cout << classroom::print_free_classrooms_for_starting_time_and_day(starting_time, day);
       }break;
       case 4:{
         std::string classroom_name = userinput::classroom_name::get();
-        std::string day = userinput::day::get();
+        int day = userinput::day::get();
         std::cout << classroom::print_free_times_for_classroom_and_day(classroom_name, day);
       }break;
       case 5:{
         std::string classroom_name = userinput::classroom_name::get();
-        std::string starting_time = userinput::starting_time::get();
+        int starting_time = userinput::starting_time::get();
         std::cout << classroom::print_free_days_for_classroom_and_starting_time(classroom_name, starting_time);
       }break;
       case 0:{

@@ -1,100 +1,74 @@
 #include <iostream>
+#include <limits>
 #include <fstream>
 #include "classroom.h"
 
-std::vector<std::shared_ptr<classroom>> classroom::classrooms_ = std::vector<std::shared_ptr<classroom> >();
+//is this necessary?
+std::vector<classroom_ptr> classroom::classrooms_ = std::vector<classroom_ptr>();
+
+void stoq(std::queue<char>& q, std::string s){
+  std::queue<char> empty;
+  std::swap(q, empty);
+  for(char ch : s){
+    if(!isspace(ch)){
+      q.push(ch);
+    }
+  }
+}
+
 
 classroom::classroom(std::ifstream& infile){
-  std::vector<std::string> empty_hour = std::vector<std::string>(7, "Empty");
-  std::vector<std::vector<std::string> > schedule_ = std::vector<std::vector<std::string> >(5, empty_hour);
-
-  std::queue<char> file;
   std::string line;
-  while(std::getline(infile, line)){
-    for(int i=0; i<line.length(); i++){
-      if(!isspace(line[i])){
-        file.push(line[i]); 
-      }
-    }
-    file.push('N');
-  }
-  file.push('E');
-  infile.close();
+  std::queue<char> q;
+  std::getline(infile, line);
+  stoq(q, line);
 
-  std::string classroom_name = "";
-  for(int i=0; i<4; i++){
-    classroom_name += file.front();
-    file.pop();
+  while(q.front() != 'C' && !q.empty()){
+    classroom_name_ += q.front();
+    q.pop();
   }
-  classroom_name_ = classroom_name;
 
   for(int i=0; i<8; i++){
-    file.pop();
+    q.pop();
   }
-
-  std::string capacity_str = "";
   
-  while(file.front() != 'N'){
-    if(!isspace(file.front())){
-      capacity_str += file.front();
-      file.pop();
-    }
-  }
+  std::string capacity_str;
 
+  while(!q.empty()) {
+    capacity_str += q.front();
+    q.pop();
+  }
+  
   capacity_ = stoi(capacity_str);
 
-  file.pop();
-  file.pop();
-
   for(int i=0; i<LESSON_NUM; i++){
-    for(int j=0; j<DAY_NUM; j++){
-      schedule_[i][j] = "Empty";
-    }
+    schedule_.push_back(std::vector<std::string>(DAY_NUM, "Empty"));
   }
 
-  if(DEBUG) {
-    std::cout << "DEBUG: Dumping queue before schedule for " << classroom_name_ << std::endl;
-    std::queue<char> filecopy = file;
-    while(!filecopy.empty()){
-      std::cout << filecopy.front();
-      filecopy.pop();
-    }
-    std::cout << std::endl;
-  }
-  while(file.front() != 'E'){
-    char schedule_day = file.front();
-    int s_d = schedule_day - '0';
-    file.pop();
-
-    while(file.front() != 'N'){
-      char schedule_hour = file.front();
-      int s_h = schedule_hour - '0';
-      file.pop();
-      schedule_[s_h-1][s_d-1] = "Full";
-      if(DEBUG) std::cout << "DEBUG: This element should be Full: " << s_h-1 << "/" << s_d-1 << "=" << schedule_hour << "/" << schedule_day << ": " << schedule_[s_h-1][s_d-1] << std::endl;
-      if(DEBUG) std::cout << "DEBUG: Front character is " << file.front() << std::endl;
-    }
-    if(file.front() == 'N'){
-      file.pop();
-    }
-  }
-
-  if(DEBUG) std::cout << "DEBUG: Successfully set schedule for " << classroom_name_ << std::endl;
-
-  if(DEBUG){
-    std::cout << "DEBUG: Dumping schedule_" << std::endl;
-    for(int i=0; i<LESSON_NUM; i++){
-      for(int j=0; j<DAY_NUM; j++){
-        std::cout << "Entry " << i << "/"  << j << " : " << schedule_[i][j] << std::endl;
+  std::getline(infile, line);
+  while(infile){
+    std::getline(infile, line);
+    stoq(q, line);
+    if(!q.empty()){
+      char hour_ch = q.front();
+      int hour = hour_ch - '0';
+      q.pop();
+      while(!q.empty()){
+        char day_ch = q.front();
+        int day = day_ch - '0';
+        q.pop();
+        schedule_[day-1][hour-1] = "Full";
       }
     }
   }
 
-  classrooms_.push_back(std::shared_ptr<classroom>(this));
+  infile.close();
+
+  classrooms_.push_back(classroom_ptr(this));
 }
 
 bool classroom::exists(std::string classroom_name){
-  for(auto cr: classroom::classrooms_){
+  for(auto cr: classrooms_){
     if(cr->get_name() == classroom_name){
       return true;
     }
@@ -102,63 +76,62 @@ bool classroom::exists(std::string classroom_name){
   return false;
 }
 
-//todo
-classroom& classroom::get(std::string classroom_name){
+classroom_ptr classroom::get(std::string classroom_name){
   for(auto cr : classrooms_){
     if(cr->get_name() == classroom_name){
-      if(DEBUG) std::cout << "DEBUG: Gave class " << cr->get_name() << std::endl;
-      if(DEBUG) std::cout << cr->print_schedule() << std::endl;
-      return *cr;
+      return cr;
     }
   }
   std::cout << "Couldn't find classroom. Terminating..." << std::endl;
-  throw 20;
+  throw 3;
 }
 
-const std::vector<std::shared_ptr<classroom> >& classroom::get_all(){
+const std::vector<classroom_ptr>& classroom::get_all(){
   return classrooms_;
 }
 
 //todo TODO don't throw error?
-classroom& classroom::get_free(std::string time, std::string day, int student_number){
+classroom_ptr classroom::get_free(int time, int day, int student_number){
+  int lowest_capacity = std::numeric_limits<int>::max();
+  classroom_ptr best_class;
   for(auto cr : classrooms_){
     int capacity = cr->get_capacity();
-    std::array<std::array<std::string, LESSON_NUM>, DAY_NUM> schedule = cr->get_schedule();
     if(capacity >= student_number 
-        && schedule[day][time] == "Empty"){
-      if(DEBUG) std::cout << "DEBUG: Gave class " << cr->get_name() << std::endl;
-      return *cr;
+        && capacity < lowest_capacity
+        && cr->get_schedule().at(day).at(time) == "Empty"){
+      best_class = cr;
+      lowest_capacity = cr->get_capacity();
     }
   }
-  std::cout << "Couldn't find free classroom. Terminating..." << std::endl;
-  throw 20;
-  return *classrooms_[0]; 
+  if(best_class){
+    return best_class; 
+  }else{
+    std::cout << "Couldn't find free classroom. Terminating..." << std::endl;
+    throw 20;
+  }
 }
 
-std::string classroom::print_free_classrooms_for_starting_time_and_day(std::string starting_time, std::string day){
+std::string classroom::print_free_classrooms_for_starting_time_and_day(int starting_time, int day){
   return "";
 }
 
-std::string classroom::print_free_times_for_classroom_and_day(std::string classroom_name, std::string day){
+std::string classroom::print_free_times_for_classroom_and_day(std::string classroom_name, int day){
   return "";
 }
 
-std::string classroom::print_free_days_for_classroom_and_starting_time(std::string classroom_name, std::string starting_time){
+std::string classroom::print_free_days_for_classroom_and_starting_time(std::string classroom_name, int starting_time){
   return "";
 }
 
 std::string classroom::get_name(){
-  if(DEBUG) std::cout << "DEBUG: Got name " << classroom_name_ << std::endl;
   return classroom_name_;
 }
 
 int classroom::get_capacity(){
-  if(DEBUG) std::cout << "DEBUG: Got capacity " << capacity_ << std::endl;
   return capacity_;
 }
 
-std::array<std::array<std::string, DAY_NUM>, LESSON_NUM>& classroom::get_schedule(){
-  if(DEBUG) std::cout << "DEBUG: Got capacity " << capacity_ << std::endl;
+std::vector<std::vector<std::string> >& classroom::get_schedule(){
   return schedule_;
 }
 

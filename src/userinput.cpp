@@ -2,24 +2,31 @@
 #include "userinput.h"
 #include "classroom.h"
 #include "constants.h"
-using namespace std;
 
-string userinput::starting_time::get(){
+int userinput::starting_time::get(){
   bool valid_starting_time = false;
-  string starting_time;
+  std::string starting_time_str;
   while(!valid_starting_time){
-    cout << "Please enter the starting time (e.g. 8:30 or 16:30): ";
-    cin >> starting_time;
-    if(try_parse(starting_time)){
+    std::cout << "Please enter the starting time (e.g. 8:30 or 16:30): ";
+    std::cin >> starting_time_str;
+    if(try_parse(starting_time_str)){
       valid_starting_time = true;
     }
   }
+  int starting_time;
+  if(starting_time_str.length() == 4){
+    starting_time = 0;
+    // math would be((starting_time_str[0] - '0') - 8) / 2;
+  }else{
+    starting_time = (stoi(starting_time_str.substr(0.2)) - 8) / 2;
+  }
+  if(DEBUG) std::cout << "Starting time str: " << starting_time_str << " Int: " << starting_time << std::endl;
   return starting_time;
 }
 
 //todo is very different from rest, perhaps a restructure?
-bool userinput::starting_time::try_parse(string starting_time){
-  string hour_boilerplate;
+bool userinput::starting_time::try_parse(std::string starting_time){
+  std::string hour_boilerplate;
 
   if(starting_time.length() == 5){
     hour_boilerplate = starting_time.substr(2, 3);
@@ -69,12 +76,12 @@ bool userinput::starting_time::try_parse(string starting_time){
   return false;
 }
 
-string userinput::classroom_name::get(){
-  string classroom_name;
+std::string userinput::classroom_name::get(){
+  std::string classroom_name;
   bool valid_classroom_name = false;
   while(!valid_classroom_name){
-    cout << "Please enter the classroom name (e.g. D301 or D505): ";
-    cin >> classroom_name;
+    std::cout << "Please enter the classroom name (e.g. D301 or D505): ";
+    std::cin >> classroom_name;
     for(auto & c: classroom_name) c = toupper(c);
     if(try_parse(classroom_name)){
       valid_classroom_name = true;
@@ -83,7 +90,7 @@ string userinput::classroom_name::get(){
   return classroom_name;
 }
 
-bool userinput::classroom_name::try_parse(string classroom_name){
+bool userinput::classroom_name::try_parse(std::string classroom_name){
   bool valid_classroom_name = false;
   if(classroom::exists(classroom_name)){
     valid_classroom_name = true;    
@@ -94,21 +101,42 @@ bool userinput::classroom_name::try_parse(string classroom_name){
   return valid_classroom_name;
 }
 
-string userinput::day::get(){
+int userinput::day::get(){
   bool valid_day = false;
-  string day;
+  std::string day_str;
   while(!valid_day){
-    cout << "Please enter the day (e.g. Mon or Sun or 1 or 7): ";
-    cin >> day;
-    if(try_parse(day)){
+    std::cout << "Please enter the day (e.g. Mon or Sun or 1 or 7): ";
+    std::cin >> day_str;
+    if(try_parse(day_str)){
       valid_day = true;
+    }
+  }
+  int day;
+  if(day_str.length() == 1){
+    day = day_str[0] - 'O' - 1;
+  }else{
+    for(auto & c: day_str) c = toupper(c);
+    if(day_str == "MON"){
+      day = 0; 
+    }else if(day_str == "TUE"){
+      day = 1;   
+    }else if(day_str == "WED"){
+      day = 2;
+    }else if(day_str == "THU"){
+      day = 3;
+    }else if(day_str == "FRI"){
+      day = 4;
+    }else if(day_str == "SAT"){
+      day = 5;
+    }else if(day_str == "SUN"){
+      day = 6;
     }
   }
   return day;
 }
 
 //todo work with array of options instead of && chain
-bool userinput::day::try_parse(string day){
+bool userinput::day::try_parse(std::string day){
   bool valid_day = true;
   for (auto & c: day) c = toupper(c);
   if(day != "MON"
@@ -129,12 +157,12 @@ bool userinput::day::try_parse(string day){
   return valid_day;
 }
 
-string userinput::course_name::get(){
+std::string userinput::course_name::get(){
   bool valid_course_name = false;
-  string course_name;
+  std::string course_name;
   while(!valid_course_name){
-    cout << "Please enter the course name (e.g. MAT1051 or CMP1004): ";
-    cin >> course_name;
+    std::cout << "Please enter the course name (e.g. MAT1051 or CMP1004): ";
+    std::cin >> course_name;
     if(try_parse(course_name)){
       valid_course_name = true;
     }
@@ -143,7 +171,7 @@ string userinput::course_name::get(){
 }
 
 //todo work with utf8 instead of ascii
-bool userinput::course_name::try_parse(string course_name){
+bool userinput::course_name::try_parse(std::string course_name){
   bool valid_course_name = true;
   for (auto & z: course_name) z = toupper (z);
   for ( int i = 0 ; i<3; i++){
@@ -163,14 +191,15 @@ int userinput::get_int(){
   bool valid_int = false;
   int number;
   while(!valid_int){
-    string num_str;
+    std::string num_str;
     int num;
-    cin >> num_str;
+    std::cin >> num_str;
     try{
       num = stoi(num_str);
       valid_int = true;
       number = num;
-    }catch(invalid_argument){}
+    //catch statement empty?
+    }catch(std::invalid_argument){}
   }
   return number;
 }
