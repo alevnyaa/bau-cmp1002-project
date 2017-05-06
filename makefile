@@ -22,7 +22,7 @@ build/%.o: src/%.cpp src/%.h src/constants.h
 	$(CC) -o $@ $< -c
 
 clean: 
-	rm -rf bin build
+	rm -rf bin build exam.txt
 	
 #build/classroom.o: src/classroom.cpp src/classroom.h
 #	$(CC) -o $@ $< -c
