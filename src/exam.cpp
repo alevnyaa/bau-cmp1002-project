@@ -1,4 +1,5 @@
 #include "exam.h"
+#include "classroom.h"
 
 exam::exam(std::string course_name, 
     std::string classroom_name, 
@@ -12,6 +13,7 @@ exam::exam(std::string course_name,
   day_ = day;
   starting_time_ = starting_time;
   student_number_ = student_number;
+  classroom::get(classroom_name_)->get_schedule().at(starting_time_).at(day) = "Exam";
   return;
 }
 
