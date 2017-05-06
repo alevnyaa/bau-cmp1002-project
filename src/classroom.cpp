@@ -170,15 +170,13 @@ std::vector<std::vector<std::string> >& classroom::get_schedule(){
 std::string classroom::print_schedule(){
   std::string prnt_txt = "\t\tMon\tTue\tWed\tThu\tFri\tSat\tSun\n";
   int cur_hour = 8;
-  for(int i=0; i<LESSON_NUM; i++){
+  for(std::vector<std::string> time : schedule_){
     prnt_txt += std::to_string(cur_hour) + ":30-" + std::to_string(cur_hour+2) + ":20";
     cur_hour += 2;
-    for(int j=0; j<DAY_NUM; j++){
-      if(DEBUG) std::cout << "DEBUG: Current schedule entry " << i << "/" << j << " is "  << schedule_[j][i] << std::endl;
-      prnt_txt += '\t' + schedule_[i][j];
+    for(std::string target : time){
+      prnt_txt += "\t" + target;
     }
-    prnt_txt += '\n';
+    prnt_txt += "\n";
   }
-  std::cout << prnt_txt;
   return prnt_txt;
 }
